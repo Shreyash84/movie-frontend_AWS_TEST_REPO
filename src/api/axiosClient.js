@@ -46,8 +46,12 @@ export const getBookingById = (bookingId) =>
 
 /* WEBSOCKET */
 export const getShowtimeSocket = (showtimeId) => {
-    const wsUrl = import.meta.env.VITE_WS_URL || "ws://localhost:8000";
-    return new WebSocket(`${wsUrl}/ws/showtime/${showtimeId}`);
+  // Use production WSS URL if provided, else auto-detect host
+  const baseWs =
+    import.meta.env.VITE_WS_URL ||
+    `wss://${window.location.hostname}`;
+
+  return new WebSocket(`${baseWs}/ws/showtime/${showtimeId}`);
 };
 
 export default API;
