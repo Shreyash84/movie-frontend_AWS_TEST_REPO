@@ -29,7 +29,7 @@ export const getTopRatedMovies = (minRating = 7) =>
 
 /* SHOWTIMES */
 export const getShowtimes = (movieId) =>
-    API.get("/showtimes", { params: { movie_id: movieId } });
+    API.get("/showtimes/", { params: { movie_id: movieId } });
 export const getShowtimeSeats = (showtimeId) =>
     API.get(`/showtimes/${showtimeId}/seats`);
 
