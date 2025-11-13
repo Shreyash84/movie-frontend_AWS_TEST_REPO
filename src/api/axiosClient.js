@@ -4,7 +4,7 @@ import axios from "axios";
    AXIOS INSTANCE
 ================================ */
 const API = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
+    baseURL: import.meta.env.VITE_API_URL || "https://13.49.63.5",
     headers: { "Content-Type": "application/json" },
 });
 
@@ -17,7 +17,7 @@ API.interceptors.request.use((config) => {
 /* ================================
    AUTH
 ================================ */
-export const signUp = (data) => API.post("/auth/signup");
+export const signUp = (data) => API.post("/auth/signup", data);
 export const login = (formData) =>
     API.post("/auth/login", formData, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
