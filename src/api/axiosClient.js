@@ -48,8 +48,7 @@ export const getBookingById = (bookingId) =>
 export const getShowtimeSocket = (showtimeId) => {
   // Use production WSS URL if provided, else auto-detect host
   const baseWs =
-    import.meta.env.VITE_WS_URL ||
-    `wss://${window.location.hostname}`;
+    import.meta.env.VITE_WS_URL || "wss://13.49.63.5";
 
   return new WebSocket(`${baseWs}/ws/showtime/${showtimeId}`);
 };
