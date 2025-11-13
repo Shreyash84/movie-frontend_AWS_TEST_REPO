@@ -62,8 +62,7 @@ export const getBookingById = (bookingId) =>
    WEBSOCKET
 ================================ */
 export const getShowtimeSocket = (showtimeId) => {
-    const baseWs =
-        import.meta.env.VITE_WS_URL || "wss://13.49.63.5";
+    const baseWs = import.meta.env.VITE_WS_URL || "wss://13.49.63.5";
 
     return new WebSocket(`${baseWs}/ws/showtime/${showtimeId}`);
 };
