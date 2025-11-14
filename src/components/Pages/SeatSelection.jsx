@@ -129,7 +129,7 @@ const SeatSelection = () => {
 
   // 🟢 Handle booking, update or cancel
   const handleAction = async () => {
-    if (!isAuthenticated || !token) {
+    if (!isAuthenticated) {
       alert("Please log in to continue.");
       return;
     }
