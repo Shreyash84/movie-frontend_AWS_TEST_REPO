@@ -53,7 +53,9 @@ const SeatSelection = () => {
   useEffect(() => {
     if (!showtime_id || loading) return;
 
-    const ws = new WebSocket(`ws://localhost:8000/ws/showtime/${showtime_id}`);
+    // const ws = new WebSocket(`ws://localhost:8000/ws/showtime/${showtime_id}`);
+    const ws = getShowtimeSocket(showtime_id);
+
     ws.onopen = () => console.log("✅ WebSocket connected (SeatSelection)");
     ws.onmessage = (event) => {
       try {

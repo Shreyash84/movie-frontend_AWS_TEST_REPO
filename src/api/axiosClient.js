@@ -18,10 +18,12 @@ API.interceptors.request.use((config) => {
    AUTH
 ================================ */
 export const signUp = (data) => API.post("/auth/signup", data);
+
 export const login = (formData) =>
     API.post("/auth/login", formData, {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
     });
+
 export const googleLogin = (data) => API.post("/auth/google", data);
 
 /* ================================
@@ -29,16 +31,14 @@ export const googleLogin = (data) => API.post("/auth/google", data);
 ================================ */
 export const getMovies = () => API.get("/movie/list");
 export const getMovieById = (id) => API.get(`/movie/${id}`);
-export const getCurrentlyShowingMovies = () =>
-    API.get("/movie/currently-showing");
+export const getCurrentlyShowingMovies = () => API.get("/movie/currently-showing");
 export const getUpcomingMovies = () => API.get("/movie/upcoming");
 export const getTopRatedMovies = (minRating = 7) =>
     API.get("/movie/top-rated", { params: { min_rating: minRating } });
 
 /* ================================
-   SHOWTIMES
+   SHOWTIMES  (FIXED)
 ================================ */
-// ❗ NO TRAILING SLASH — prevents redirect/CORS issues
 export const getShowtimes = (movieId) =>
     API.get("/showtimes", { params: { movie_id: movieId } });
 
@@ -63,7 +63,6 @@ export const getBookingById = (bookingId) =>
 ================================ */
 export const getShowtimeSocket = (showtimeId) => {
     const baseWs = import.meta.env.VITE_WS_URL || "wss://13.49.63.5";
-
     return new WebSocket(`${baseWs}/ws/showtime/${showtimeId}`);
 };
 
