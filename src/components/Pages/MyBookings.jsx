@@ -109,6 +109,9 @@ const MyBookings = () => {
                       {b.status}
                     </span>
                   </p>
+                  <p>
+                    <strong>BookingID:</strong> ₹{b.id || b.bookingId }
+                  </p>
                 </div>
 
                 {/* Action buttons */}
