@@ -110,7 +110,7 @@ const MyBookings = () => {
                     </span>
                   </p>
                   <p>
-                    <strong>BookingID:</strong>{b.id || b.bookingId }
+                    <strong>BookingID: </strong>{b.id || b.bookingId }
                   </p>
                 </div>
 
