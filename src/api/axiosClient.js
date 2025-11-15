@@ -50,7 +50,7 @@ export const getShowtimeSeats = (showtimeId) =>
 ================================ */
 export const createBooking = (data) => API.post("/bookings/", data);
 export const getShowtimeSeatsForBooking = (showtimeId) =>
-    API.get(`/bookings/showtime/${showtimeId}/seats/`);
+    API.get(`/bookings/showtime/${showtimeId}/seats`);
 export const cancelBooking = (bookingId, data) =>
     API.put(`/bookings/${bookingId}/cancel`, data);
 export const updateBooking = (bookingId, data) =>
