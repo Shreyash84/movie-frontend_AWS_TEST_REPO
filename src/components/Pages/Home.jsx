@@ -89,6 +89,8 @@ const Home = () => {
             className="flex flex-col sm:flex-row justify-center gap-4"
           >
             <Button
+              component={Link}
+              to="/movies"
               variant="contained"
               startIcon={<Ticket className="w-5 h-5" />}
               size="large"
@@ -110,7 +112,7 @@ const Home = () => {
                 },
               }}
             >
-              Book Tickets
+              Browse Movies
             </Button>
             <Button
               component={Link}
