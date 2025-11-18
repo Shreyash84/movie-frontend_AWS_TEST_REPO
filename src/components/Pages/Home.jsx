@@ -12,6 +12,11 @@ import { Link } from "react-router-dom";
 import MovieCard from "../MovieCard/MovieCard";
 import { getTopRatedMovies } from "../../api/axiosClient"; // ✅ import featured movies API
 
+// Helper function to check if user is logged in
+const isUserLoggedIn = () => {
+  return !!localStorage.getItem("token"); // Adjust based on your auth token key
+};
+
 // Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,6 +35,7 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [featuredMovies, setFeaturedMovies] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(isUserLoggedIn());
 
   // 🎬 Fetch featured (top-rated) movies for home
   useEffect(() => {
@@ -44,6 +50,31 @@ const Home = () => {
       }
     };
     fetchFeatured();
+  }, []);
+
+  // Check authentication status whenever component mounts or becomes visible
+  useEffect(() => {
+    const checkAuthStatus = () => {
+      setIsLoggedIn(isUserLoggedIn());
+    };
+
+    // Check on mount
+    checkAuthStatus();
+
+    // Listen for storage changes (works across tabs)
+    window.addEventListener("storage", checkAuthStatus);
+    
+    // Listen for custom logout event (works in same tab)
+    window.addEventListener("logout", checkAuthStatus);
+
+    // Check when page becomes visible again
+    document.addEventListener("visibilitychange", checkAuthStatus);
+
+    return () => {
+      window.removeEventListener("storage", checkAuthStatus);
+      window.removeEventListener("logout", checkAuthStatus);
+      document.removeEventListener("visibilitychange", checkAuthStatus);
+    };
   }, []);
 
   return (
@@ -104,6 +135,9 @@ const Home = () => {
                 fontSize: "1.1rem",
                 fontWeight: 600,
                 transition: "all 0.3s ease",
+                ...(isLoggedIn && {
+                  minWidth: "280px", // Make button wider when alone
+                }),
                 "&:hover": {
                   background:
                     "linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)",
@@ -114,29 +148,31 @@ const Home = () => {
             >
               Browse Movies
             </Button>
-            <Button
-              component={Link}
-              to="/login"
-              variant="outlined"
-              startIcon={<LucideLogIn className="w-5 h-5" />}
-              sx={{
-                borderColor: "#ef4444",
-                color: "#ef4444",
-                padding: "14px 40px",
-                borderRadius: "16px",
-                textTransform: "none",
-                fontSize: "1.1rem",
-                fontWeight: 600,
-                transition: "all 0.3s ease",
-                "&:hover": {
-                  backgroundColor: "rgba(239,68,68,0.1)",
-                  borderColor: "#dc2626",
-                  color: "#dc2626",
-                },
-              }}
-            >
-              Login
-            </Button>
+            {!isLoggedIn && (
+              <Button
+                component={Link}
+                to="/login"
+                variant="outlined"
+                startIcon={<LucideLogIn className="w-5 h-5" />}
+                sx={{
+                  borderColor: "#ef4444",
+                  color: "#ef4444",
+                  padding: "14px 40px",
+                  borderRadius: "16px",
+                  textTransform: "none",
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    backgroundColor: "rgba(239,68,68,0.1)",
+                    borderColor: "#dc2626",
+                    color: "#dc2626",
+                  },
+                }}
+              >
+                Login
+              </Button>
+            )}
           </motion.div>
         </motion.div>
 
@@ -154,7 +190,7 @@ const Home = () => {
               <span className="text-white">Movies</span>
             </h1>
             <p className="text-slate-400 text-base md:text-lg">
-              Don’t miss these top-rated picks from our collection!
+              Don't miss these top-rated picks from our collection!
             </p>
           </div>
 

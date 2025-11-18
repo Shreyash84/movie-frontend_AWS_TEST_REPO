@@ -24,7 +24,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(getStoredUser);
   const [token, setToken] = useState(() => localStorage.getItem("token"));
   const [loading, setLoading] = useState(false);
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "info" }); // ✅ New snackbar state
+  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "info" });
 
   const isAuthenticated = !!token;
 
@@ -41,6 +41,9 @@ export const AuthProvider = ({ children }) => {
     setToken(accessToken);
     localStorage.setItem("token", accessToken);
     localStorage.setItem("user", JSON.stringify(userData || {}));
+    
+    // ✅ Dispatch login event to update other components
+    window.dispatchEvent(new Event("login"));
   };
 
   // -----------------------------
@@ -52,10 +55,13 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
 
+    // ✅ Dispatch logout event so Home component (and others) update immediately
+    window.dispatchEvent(new Event("logout"));
+
     // ✅ Trigger logout Snackbar
     setSnackbar({
       open: true,
-      message: "You’ve been logged out successfully!",
+      message: "You've been logged out successfully!",
       severity: "info",
     });
   };
